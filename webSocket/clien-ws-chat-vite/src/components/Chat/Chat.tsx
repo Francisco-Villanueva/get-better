@@ -31,7 +31,7 @@ export function Chat({
 
   // Ref para el contenedor de mensajes
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
-
+  const apiUrl = import.meta.env.VITE_API_URL;
   const handleMessage = (msg: string) => {
     socket.emit("typing", { message: msg, owner: username });
     const now = new Date();
@@ -55,9 +55,7 @@ export function Chat({
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const response = await axios.get(
-        "http://localhost:3001/websocket/messages"
-      );
+      const response = await axios.get(`${apiUrl}/websocket/messages`);
 
       setMessages(
         response.data.map(({ message, owner, time }: IMessage) => ({
@@ -99,7 +97,7 @@ export function Chat({
   }, [newMessage]);
 
   return (
-    <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 pt-[50px] w-full">
+    <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 pt-[50px] max-md:px-1 max-md:pb-1 max-md:pt-[50px]  w-full">
       <div className="absolute top-0 left-0 rounded-t-md w-full bg-accent  h-[50px] flex items-center px-4 gap-2 ">
         <Group />
         <h1 className="text-xl font-medium">Developers</h1>

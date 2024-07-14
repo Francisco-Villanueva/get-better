@@ -16,7 +16,7 @@ export default function Message({
     <div
       className={` ${
         isOwner ? "bg-primary self-end" : "bg-black/90"
-      } p-2 m-2 rounded-md text-secondary flex flex-col items-start text-[16px] min-w-[250px] max-w-[50%] text-wrap   `}
+      } p-2 m-2 rounded-md text-secondary flex flex-col items-start text-[16px] max-md:text-[14px] min-w-[250px] max-w-[50%] text-wrap   `}
     >
       {!isOwner && (
         <section className="  text-green-200 ">

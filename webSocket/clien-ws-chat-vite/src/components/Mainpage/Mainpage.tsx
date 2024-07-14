@@ -54,14 +54,14 @@ export function Mainpage({
 }: MainpageProps) {
   return (
     <ResizablePanelGroup direction="horizontal" className="w-[100vw] ">
-      <ResizablePanel defaultSize={6} minSize={3} maxSize={20}>
+      <ResizablePanel defaultSize={12} minSize={12} maxSize={12}>
         <aside className="inset-y   left-0 z-20 flex h-full flex-col border-r  items-center ">
           <div className="border-b p-2 w-full flex justify-center">
             <Button variant="outline" size="icon" aria-label="Home">
               <Triangle className="size-5 fill-foreground" />
             </Button>
           </div>
-          <nav className="flex flex-col items-start w-full p-2">
+          <nav className="flex flex-col items-center w-full p-2">
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
@@ -219,7 +219,7 @@ export function Mainpage({
               </div>
             )}
           </header>
-          <main className=" flex-1 gap-4 overflow-auto p-4 bg-s">
+          <main className=" flex-1 gap-4 overflow-auto p-4 max-sm:p-0">
             {children}
           </main>
         </div>
