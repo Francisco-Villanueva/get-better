@@ -13,7 +13,9 @@ import { ConfigModule } from '@nestjs/config';
     }),
 
     WebscoketModule,
-    MongooseModule.forRoot(process.env.DB_URL),
+    MongooseModule.forRoot(
+      ' mongodb+srv://prosemdev:qwer45152@reservepro.chlczpb.mongodb.net/reservePro',
+    ),
     MessageModule,
   ],
   controllers: [AppController],
