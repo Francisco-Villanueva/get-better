@@ -13,7 +13,7 @@ export default function App() {
   }
   const LogOut = () => setUsername("");
   return (
-    <main className="h-[100vh]">
+    <main className="h-[90vh]">
       <Mainpage socket={socket} handleLogout={LogOut} username={username}>
         {!username && <Login setUsername={setUsername} />}
         {username && (
