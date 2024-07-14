@@ -16,7 +16,7 @@ import { Message, MessageDocument } from 'src/message/schema/message.schema';
 
 @WebSocketGateway({
   cors: {
-    origin: 'http://localhost:5173', // Aquí especificas la URL de tu frontend
+    origin: '*', // Aquí especificas la URL de tu frontend
     methods: ['GET', 'POST'],
     credentials: true,
   },
