@@ -4,7 +4,8 @@ import { io } from "socket.io-client";
 import { Route, Routes } from "react-router-dom";
 import { Login } from "./components/Login";
 import { useState } from "react";
-const socket = io("ws://localhost:3001");
+const apiUrl = import.meta.env.VITE_API_URL;
+const socket = io(apiUrl);
 export default function App() {
   const [username, setUsername] = useState("");
   if (username) {
