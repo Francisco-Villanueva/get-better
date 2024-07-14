@@ -4,13 +4,16 @@ import { AppService } from './app.service';
 import { WebscoketModule } from './websocket/websocket.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MessageModule } from './message/message.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+
     WebscoketModule,
-    MongooseModule.forRoot(
-      'mongodb+srv://prosemdev:qwer45152@reservepro.chlczpb.mongodb.net/reservePro',
-    ),
+    MongooseModule.forRoot(process.env.DB_URL),
     MessageModule,
   ],
   controllers: [AppController],
