@@ -51,7 +51,7 @@ export default function Notifications({ socket }: NotificationsProps) {
           size="icon"
           className="mt-auto rounded-lg relative"
           aria-label="Account"
-          onClick={() => navigate("/chat")}
+          onClick={() => navigate("/")}
         >
           <Bell className="size-5" />
           {notifications > 0 && (
