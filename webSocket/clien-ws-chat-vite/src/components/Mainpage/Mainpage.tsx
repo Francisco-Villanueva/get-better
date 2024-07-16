@@ -65,9 +65,7 @@ export function Mainpage({
       <ResizableHandle />
       <ResizablePanel>
         <div className="flex flex-col flex-grow h-full">
-          <main className=" flex-1 gap-4 overflow-auto p-4 max-sm:p-0">
-            {children}
-          </main>
+          <main className=" flex-1 gap-4 overflow-auto">{children}</main>
         </div>
       </ResizablePanel>
     </ResizablePanelGroup>

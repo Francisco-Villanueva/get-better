@@ -13,7 +13,7 @@ export default function App() {
   }
   const LogOut = () => setUsername("");
   return (
-    <main className="h-[98vh]">
+    <main className="h-screen">
       <Mainpage socket={socket} handleLogout={LogOut} username={username}>
         {!username && <Login setUsername={setUsername} />}
         {username && (
