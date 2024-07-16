@@ -1,11 +1,5 @@
-import { CornerDownLeft, Group, Mic } from "lucide-react";
+import { Group, Mic, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Socket } from "socket.io-client";
 import { IMessage } from "@/types/message.type";
@@ -143,40 +137,36 @@ export function Chat({
       <div className="flex-1" />
       <form
         onSubmit={sendMessage}
-        className="relative overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring pb-3"
+        className="overflow-hidden rounded-lg border bg-background focus-within:ring-1 focus-within:ring-ring pb-3 h-32"
         x-chunk="dashboard-03-chunk-1"
       >
-        <Label htmlFor="message" className="sr-only">
-          Message
-        </Label>
         <Input
           id="message"
           placeholder="Type your message here..."
-          className="min-h-12 resize-none border-0 p-3 shadow-none focus-visible:ring-0"
+          className="min-h-[60%] resize-none border-0 p-3 shadow-none focus-visible:ring-0"
           value={message.message}
           onChange={(e) => handleMessage(e.target.value)}
           autoComplete="off"
         />
-        <div className="flex items-center p-3 pt-0">
+        <div className="flex items-center p-3 pt-0 justify-between">
           <UploadImage onUpload={handleImageUpload} />
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button variant="ghost" size="icon" type="button">
+
+          <div>
+            {message.message.length === 0 ? (
+              <Button size="icon" type="button">
                 <Mic className="size-4" />
-                <span className="sr-only">Use Microphone</span>
               </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top">Use Microphone</TooltipContent>
-          </Tooltip>
-          <Button
-            type="submit"
-            size="sm"
-            className="ml-auto gap-1.5"
-            disabled={message.message.length === 0}
-          >
-            Send Message
-            <CornerDownLeft className="size-3.5" />
-          </Button>
+            ) : (
+              <Button
+                type="submit"
+                size="icon"
+                className=""
+                disabled={message.message.length === 0}
+              >
+                <Send className="size-4" />
+              </Button>
+            )}
+          </div>
         </div>
       </form>
     </div>
