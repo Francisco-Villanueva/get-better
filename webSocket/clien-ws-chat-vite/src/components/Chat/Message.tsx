@@ -1,6 +1,6 @@
 import { IMessage } from "@/types/message.type";
 import { Socket } from "socket.io-client";
-
+const apiUrl = import.meta.env.VITE_API_URL;
 export default function Message({
   data,
   username,
@@ -34,7 +34,7 @@ export default function Message({
       {type === "image" && (
         <div className=" w-full   ">
           <img
-            src={`http://localhost:3001${message}`}
+            src={`${apiUrl}${message}`}
             alt="img-wechat"
             className="w-full"
           />
