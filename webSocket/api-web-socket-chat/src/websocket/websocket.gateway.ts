@@ -46,10 +46,12 @@ export class WebsocketGateway
     @ConnectedSocket() client: Socket,
     @MessageBody() data: IMessage,
   ) {
-    const createdMessage = new this.messageModel(data);
-    await createdMessage.save();
-    this.server.emit('ownMessage', data);
-    client.broadcast.emit('serverMessage', data);
+    if (data.message.length > 0) {
+      const createdMessage = new this.messageModel(data);
+      await createdMessage.save();
+      this.server.emit('ownMessage', data);
+      client.broadcast.emit('serverMessage', data);
+    }
   }
 
   @SubscribeMessage('setUsername')
