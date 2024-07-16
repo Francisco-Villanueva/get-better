@@ -9,7 +9,7 @@ export default function Message({
   socket: Socket;
   username: string;
 }) {
-  const { message, owner, time } = data;
+  const { message, owner, time, type } = data;
 
   const isOwner = owner.toLowerCase() === username.toLowerCase();
   return (
@@ -23,12 +23,23 @@ export default function Message({
           <p>{owner}</p>
         </section>
       )}
-      <div className=" max-w-[100%] text-wrap w-full    ">
-        <p className="max-w-[100%] ">{message}</p>
-        <p className="text-accent/50  w-full text-right text-[11px]  ">
-          {time}
-        </p>
-      </div>
+      {type === "text" && (
+        <div className=" max-w-[100%] text-wrap w-full    ">
+          <p className="max-w-[100%] ">{message}</p>
+          <p className="text-accent/50  w-full text-right text-[11px]  ">
+            {time}
+          </p>
+        </div>
+      )}
+      {type === "image" && (
+        <div className=" w-full   ">
+          <img
+            src={`http://localhost:3001${message}`}
+            alt="img-wechat"
+            className="w-full"
+          />
+        </div>
+      )}
     </div>
   );
 }
