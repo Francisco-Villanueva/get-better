@@ -6,7 +6,7 @@ import { IMessage } from "@/types/message.type";
 import Message from "./Message";
 import { Input } from "../ui/input";
 import axios from "axios";
-import { UploadImage } from "../Upload/UploadImage";
+import UploadImage from "../Upload/UploadImage";
 
 export function Chat({
   socket,

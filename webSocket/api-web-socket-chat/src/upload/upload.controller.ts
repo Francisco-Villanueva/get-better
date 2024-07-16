@@ -3,10 +3,18 @@ import {
   Post,
   UploadedFile,
   UseInterceptors,
+  Body,
+  Delete,
+  HttpException,
+  HttpStatus,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname } from 'path';
+import { extname, join } from 'path';
+import { unlink } from 'fs';
+import { promisify } from 'util';
+
+const unlinkAsync = promisify(unlink);
 
 @Controller('upload')
 export class UploadController {
@@ -27,5 +35,19 @@ export class UploadController {
   )
   uploadFile(@UploadedFile() file: Express.MulterFile) {
     return { filename: file.filename, path: `/uploads/${file.filename}` };
+  }
+
+  @Delete('image')
+  async deleteFile(@Body('filename') filename: string) {
+    const filePath = join(process.cwd(), 'uploads', filename);
+    try {
+      await unlinkAsync(filePath);
+      return { message: 'File deleted successfully' };
+    } catch (error) {
+      throw new HttpException(
+        'Error deleting file: ' + error.message,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

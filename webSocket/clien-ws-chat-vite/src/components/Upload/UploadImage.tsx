@@ -1,105 +1,97 @@
-import { useState, useRef } from "react";
+import React, { useRef, useState } from "react";
 import axios from "axios";
+import { Paperclip, Send } from "lucide-react";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
-
-export function UploadImage({
-  onUpload,
-}: {
+const apiUrl = import.meta.env.VITE_API_URL;
+interface UploadImageProps {
   onUpload: (imageUrl: string) => void;
-}) {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [isCameraOpen, setIsCameraOpen] = useState(false);
-  const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+}
+const UploadImage = ({ onUpload }: UploadImageProps) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const handleFileChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.files && event.target.files[0]) {
+      const file = event.target.files[0];
+      const formData = new FormData();
+      formData.append("file", file);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setSelectedFile(event.target.files[0]);
-    }
-  };
-
-  const handleUpload = async () => {
-    if (!selectedFile) return;
-
-    const formData = new FormData();
-    formData.append("file", selectedFile);
-
-    try {
-      const response = await axios.post(
-        "http://localhost:3001/upload/image",
-        formData,
-        {
+      try {
+        const response = await axios.post(`${apiUrl}/upload/image`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
-      );
-
-      const imageUrl = response.data.path;
-      onUpload(imageUrl);
-      setSelectedFile(null);
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    }
-  };
-
-  const handleCapture = async () => {
-    if (videoRef.current && canvasRef.current) {
-      const context = canvasRef.current.getContext("2d");
-      if (context) {
-        context.drawImage(
-          videoRef.current,
-          0,
-          0,
-          canvasRef.current.width,
-          canvasRef.current.height
-        );
-        const dataUrl = canvasRef.current.toDataURL("image/png");
-        const blob = await fetch(dataUrl).then((res) => res.blob());
-        const file = new File([blob], "captured-image.png", {
-          type: "image/png",
         });
-        setSelectedFile(file);
-        setIsCameraOpen(false);
-        stopCamera();
+        console.log("image previwe = ", response.data.path);
+        setImagePreview(response.data.path);
+        // onUpload(response.data.path);
+      } catch (error) {
+        console.error("Error uploading file:", error);
       }
     }
   };
-
-  const startCamera = async () => {
+  const deleteImageSelected = async () => {
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        setCameraStream(stream);
-      }
-      setIsCameraOpen(true);
+      const response = await axios.delete(`${apiUrl}/upload/image`, {
+        data: {
+          filename:
+            imagePreview?.split("/")[imagePreview?.split("/").length - 1],
+        },
+      });
+      setImagePreview(null);
+      console.log(response.data.message);
     } catch (error) {
-      console.error("Error accessing camera:", error);
+      console.error("Error deleting file:", error);
+    }
+  };
+  const handleButtonClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
     }
   };
 
-  const stopCamera = () => {
-    if (cameraStream) {
-      cameraStream.getTracks().forEach((track) => track.stop());
+  const handleSendImage = () => {
+    if (imagePreview) {
+      onUpload(imagePreview);
+      setImagePreview(null);
     }
-    if (videoRef.current) {
-      videoRef.current.srcObject = null;
-    }
-    setIsCameraOpen(false);
   };
 
+  console.log();
   return (
-    <div className="flex  items-center ">
-      <Input
+    <div>
+      <Button onClick={handleButtonClick} variant={"ghost"}>
+        <Paperclip className="size-4" />
+      </Button>
+      <input
         type="file"
-        accept="image/*"
+        ref={fileInputRef}
+        style={{ display: "none" }}
         onChange={handleFileChange}
-        className="mb-2"
       />
-      {selectedFile && <Button onClick={handleUpload}>Upload</Button>}
+
+      {imagePreview ? (
+        <div className=" absolute w-full h-screen top-0 left-0 flex items-center justify-center bg-black/50 ">
+          <div className="bg-accent p-10 flex flex-col justify-center gap-10 items-center ">
+            <img
+              src={`${apiUrl}${imagePreview}`}
+              alt="img-wechat"
+              className="w-[500px] border-2  "
+            />
+            <div className="flex gap-8">
+              <Button onClick={deleteImageSelected} variant={"outline"}>
+                Cancel
+              </Button>
+              <Button onClick={handleSendImage} variant={"default"}>
+                <Send className="size-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
-}
+};
+
+export default UploadImage;
