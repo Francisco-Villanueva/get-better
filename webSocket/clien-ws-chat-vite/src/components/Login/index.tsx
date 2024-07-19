@@ -11,6 +11,7 @@ export function Login({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setUsername(inputValue);
+    localStorage.setItem("user", inputValue);
   };
 
   return (
@@ -23,7 +24,7 @@ export function Login({
           onChange={(e) => setInputValue(e.target.value)}
           className="p-2 border rounded mb-4"
         />
-        <Button type="submit">Join Chat</Button>
+        <Button type="submit">Log In</Button>
       </form>
     </div>
   );

@@ -41,16 +41,22 @@ export class WebsocketGateway
     console.log('Client disconnected: ', client.id);
   }
 
+  @SubscribeMessage('joinRoom')
+  handleJoinRoom(client: Socket, codeRoom: string) {
+    client.join(codeRoom);
+    console.log(`Client ${client.id} joined room: ${codeRoom}`);
+  }
+
   @SubscribeMessage('message')
   async handleMessage(
     @ConnectedSocket() client: Socket,
-    @MessageBody() data: IMessage,
+    @MessageBody()
+    { message, codeRoom }: { codeRoom: string; message: IMessage },
   ) {
-    if (data.message.length > 0) {
-      const createdMessage = new this.messageModel(data);
+    if (message.message.length > 0) {
+      const createdMessage = new this.messageModel(message);
       await createdMessage.save();
-      this.server.emit('ownMessage', data);
-      client.broadcast.emit('serverMessage', data);
+      this.server.to(codeRoom).emit('serverMessage', message);
     }
   }
 
@@ -60,7 +66,11 @@ export class WebsocketGateway
   }
 
   @SubscribeMessage('typing')
-  handleTyping(@ConnectedSocket() client: Socket, @MessageBody() data: any) {
-    client.broadcast.emit('typing', { owner: client.id, ...data });
+  handleTyping(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: { codeRoom: string; message: string; owner: string },
+  ) {
+    const { message, codeRoom, owner } = data;
+    client.to(codeRoom).emit('typing', { owner, message });
   }
 }

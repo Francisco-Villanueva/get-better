@@ -7,11 +7,15 @@ import { useState } from "react";
 const apiUrl = import.meta.env.VITE_API_URL;
 const socket = io(apiUrl);
 export default function App() {
-  const [username, setUsername] = useState("");
+  const [username, setUsername] = useState(localStorage.getItem("user") || "");
   if (username) {
     socket.emit("setUsername", username);
   }
-  const LogOut = () => setUsername("");
+
+  const LogOut = () => {
+    setUsername("");
+    localStorage.clear();
+  };
   return (
     <main className="h-screen">
       <Mainpage socket={socket} handleLogout={LogOut} username={username}>

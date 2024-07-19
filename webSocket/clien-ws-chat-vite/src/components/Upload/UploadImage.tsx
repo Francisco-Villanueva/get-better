@@ -61,7 +61,7 @@ const UploadImage = ({ onUpload }: UploadImageProps) => {
   console.log();
   return (
     <div>
-      <Button onClick={handleButtonClick} variant={"ghost"}>
+      <Button onClick={handleButtonClick} variant={"ghost"} type="button">
         <Paperclip className="size-4" />
       </Button>
       <input
@@ -77,13 +77,21 @@ const UploadImage = ({ onUpload }: UploadImageProps) => {
             <img
               src={`${apiUrl}${imagePreview}`}
               alt="img-wechat"
-              className="w-[500px] border-2  "
+              className="w-[500px] border-2 "
             />
             <div className="flex gap-8">
-              <Button onClick={deleteImageSelected} variant={"outline"}>
+              <Button
+                onClick={deleteImageSelected}
+                variant={"outline"}
+                type="button"
+              >
                 Cancel
               </Button>
-              <Button onClick={handleSendImage} variant={"default"}>
+              <Button
+                onClick={handleSendImage}
+                variant={"default"}
+                type="button"
+              >
                 <Send className="size-4" />
               </Button>
             </div>

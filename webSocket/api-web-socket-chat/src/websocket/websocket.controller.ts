@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { WebsocketService } from './websocket.service';
 import { Message } from 'src/message/schema/message.schema';
 
@@ -6,8 +6,9 @@ import { Message } from 'src/message/schema/message.schema';
 export class WebsocketController {
   constructor(private readonly wobsocketService: WebsocketService) {}
 
-  @Get('messages')
-  async getMessages(): Promise<Message[]> {
-    return this.wobsocketService.findAll();
+  @Get('messages/:codeRoom')
+  async getMessages(@Param() data: { codeRoom: string }): Promise<Message[]> {
+    const res = await this.wobsocketService.findByRoom(data.codeRoom);
+    return res;
   }
 }

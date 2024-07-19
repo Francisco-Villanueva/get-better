@@ -16,6 +16,8 @@ export class Message {
   time: string;
   @Prop()
   type: MessageType;
+  @Prop()
+  codeRoom: string; // Añadir este campo
 }
 
 export const MessageSchema = SchemaFactory.createForClass(Message);

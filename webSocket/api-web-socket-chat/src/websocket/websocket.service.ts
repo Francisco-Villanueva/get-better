@@ -12,4 +12,7 @@ export class WebsocketService {
   async findAll(): Promise<Message[]> {
     return this.messageModel.find().exec();
   }
+  async findByRoom(codeRoom: string): Promise<Message[]> {
+    return this.messageModel.find({ codeRoom }).exec();
+  }
 }
