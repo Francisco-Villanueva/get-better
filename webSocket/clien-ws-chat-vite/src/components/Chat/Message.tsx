@@ -27,10 +27,10 @@ export default function Message({
   return (
     <div
       className={`relative ${
-        isOwner ? "bg-primary self-end " : "bg-black/90"
+        isOwner ? "bg-primary self-end " : "bg-secondary-foreground"
       } p-2 m-2 rounded-md text-secondary flex flex-col items-start text-[16px] max-md:text-[14px] min-w-[250px] max-w-[50%] text-wrap   `}
     >
-      <section className="  text-green-200 ">
+      <section className="  text-white ">
         <p>{owner}</p>
       </section>
 
@@ -67,7 +67,7 @@ export default function Message({
           <img
             src={`${apiUrl}${message}`}
             alt="img-wechat"
-            className="w-full"
+            className="w-full rounded-md border-2 "
           />
         </div>
       )}

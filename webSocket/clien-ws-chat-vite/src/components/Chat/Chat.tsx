@@ -154,8 +154,8 @@ export function Chat({
     );
   }
   return (
-    <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-muted/50 p-4 pt-[50px] max-md:px-1 max-md:pb-1 max-md:pt-[50px]  w-full">
-      <div className="absolute  top-0 left-0 rounded-t-md w-full bg-accent  h-[54px] flex justify-between pt-1 px-4">
+    <div className="relative flex h-full min-h-[50vh] flex-col rounded-xl bg-background p-4 pt-[50px] max-md:px-1 max-md:pb-1 max-md:pt-[50px]  w-full">
+      <div className="absolute  top-0 left-0 rounded-t-md w-full bg-primary/10  h-[54px] flex justify-between pt-1 px-4">
         <div>
           <section className="flex items-center gap-2">
             <Group />
@@ -168,14 +168,15 @@ export function Chat({
           ) : null}
         </div>
         <Button
-          className="flex items-center gap-2"
+          className="flex items-center gap-1 "
           onClick={() => {
             setRoomCode("");
             setJoinedRoom(false);
           }}
+          variant={"link"}
         >
-          <LogOut />
-          <h1 className="text-xl font-medium">Salir</h1>
+          <h1 className="text-sm font-medium">Salir</h1>
+          <LogOut className="size-4" />
         </Button>
       </div>
       <div className=" flex flex-col flex-grow items-start text-accent w-full rounded-md mx-auto max-h-full overflow-auto h-full ">
